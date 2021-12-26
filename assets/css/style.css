@@ -1,0 +1,10 @@
+header {
+  padding-bottom: 3rem;
+}
+body {
+  background: rgb(152, 216, 255);
+  color: black;
+}
+.btn {
+  color: rgb(152, 216, 255);
+}
