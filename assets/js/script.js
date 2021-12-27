@@ -1,4 +1,4 @@
-// Initialize global material variable
+// Initialize global variables
 material = {
   questions: [
     'Commonly used data types DO NOT include :',
@@ -29,71 +29,193 @@ material = {
       'D. Console Log',
     ],
   ],
-  correct: ['button3', 'button3', 'button4', 'button3', 'button4'],
+  correct: ['c', 'c', 'd', 'c', 'd'],
 };
 var i = 0;
+var time = 60;
+var scoreArray = {
+  values: [],
+  names: []
+};
+
 //---------------------------------------------------------------------------------------------
-// setup containers
+// setup containers / elements
 var highScore = document.querySelector('.highScore');
 var countDown = document.querySelector('.countDown');
 var questionsCont = document.querySelector('.questionsCont');
-var answersCont = document.querySelector('.answersCont');
-var answerList = document.querySelector('.answerList');
+var answerCont = document.querySelector('.answerCont');
+var buttonGroup = document.querySelector('.btn-group');
 var buttonCont = document.querySelector('.buttonCont');
+var question = document.createElement('h2');
+var labelListItem1 = document.getElementById('label1');
+var labelListItem2 = document.getElementById('label2');
+var labelListItem3 = document.getElementById('label3');
+var labelListItem4 = document.getElementById('label4');
+var radiobtn1 = document.getElementById('btn1');
+var radiobtn2 = document.getElementById('btn2');
+var radiobtn3 = document.getElementById('btn3');
+var radiobtn4 = document.getElementById('btn4');
+var form = document.querySelector('form');
+
+radiobtn1.style.display = "none";
+radiobtn2.style.display = "none";
+radiobtn3.style.display = "none";
+radiobtn4.style.display = "none";
+var nextButton = document.createElement('button');
+nextButton.setAttribute('type', 'submit');
 //----------------------------------------------------------------------------------------------
 // initialize start page
-var startHeader = document.createElement('h1');
 var startPrompt = document.createElement('p');
 var startButton = document.createElement('button');
-startHeader.innerText = 'Coding Quiz Challenge';
+var score = document.createElement('li');
+var timeLeft = document.createElement('li');
+question.innerText = 'Coding Quiz Challenge';
 startPrompt.innerText =
   'Try to answer the following code-related questions within the time limit.  Keep in mind that incorrect answers will penalize your score 2 points and time by ten seconds!';
 startButton.setAttribute('type', 'button');
 startButton.setAttribute('class', 'btn btn-dark');
 startButton.innerText = 'Start Quiz';
-questionsCont.appendChild(startHeader);
-answersCont.appendChild(startPrompt);
+score.innerText = 0;
+timeLeft.innerText = 60;
+questionsCont.appendChild(question);
+buttonGroup.appendChild(startPrompt);
 buttonCont.appendChild(startButton);
+countDown.appendChild(score);
+countDown.appendChild(timeLeft);
+retrieveScores();
 //-----------------------------------------------------------------------------------------------
-// setup funtion to clear prompt and setup questions
+inputDiv = document.createElement('div');
+inputForm = document.createElement('form');
+inputButton = document.createElement('button');
+inputInput = document.createElement('textarea');
+inputDiv.setAttribute('class', 'input-group-append');
+inputForm.setAttribute('class', 'input-group');
+inputButton.setAttribute('class', 'btn btn-dark');
+inputButton.innerHTML = "Add Initials";
+inputInput.setAttribute('placeholder', 'Initials');
+inputInput.setAttribute('class', 'form-control');
+inputDiv.appendChild(inputButton);
+inputForm.appendChild(inputInput);
+inputForm.appendChild(inputDiv);
+
+//-----------------------------------------------------------------------------------------------
+// setup function to clear prompt and setup questions
 function setupQuiz() {
+  score.innerText = 0;
+  i = 0;
+  time = 60;
+  timeLeft.innerText = 60;
+  timerStart();
   // remove prior prompt
-  startButton.innerText = 'Next Question';
-  questionsCont.removeChild(startHeader);
-  answersCont.removeChild(startPrompt);
+  buttonCont.removeChild(startButton);
+  while (questionsCont.firstChild) {
+    questionsCont.removeChild(questionsCont.firstChild);
+  }
+  questionsCont.appendChild(question);
+  startPrompt.style.display = 'none';
   // initialize question and answere elements
-  var question = document.createElement('h2');
-  var answerListItem1 = document.createElement('li');
-  var answerListItem2 = document.createElement('li');
-  var answerListItem3 = document.createElement('li');
-  var answerListItem4 = document.createElement('li');
-  var nextButton = document.createElement('button');
+  radiobtn1.style.display = "inline-block";
+  radiobtn2.style.display = "inline-block";
+  radiobtn3.style.display = "inline-block";
+  radiobtn4.style.display = "inline-block";
   nextButton.setAttribute('class', 'btn btn-dark');
+  nextButton.innerText = 'Next Question';
 
   // append children to containers / ul
-  questionsCont.appendChild(question);
-  answerList.appendChild(
-    answerListItem1,
-    answerListItem2,
-    answerListItem3,
-    answerListItem4,
-  );
-  quiz();
+  buttonCont.appendChild(nextButton);
+
+  var quizQuestion = material.questions[0];
+  var quizChoices = material.answers[0];
+  question.innerText = quizQuestion;
+  labelListItem1.innerText = quizChoices[0];
+  labelListItem2.innerText = quizChoices[1];
+  labelListItem3.innerText = quizChoices[2];
+  labelListItem4.innerText = quizChoices[3];
+  return;
 }
-function quiz() {
-  pressed = true;
-  if (i < material.questions.length && pressed) {
-    // pass question and answers into element
+function resetQuiz() {
+  timeLeft.textContent = 0;
+  question.innerText = "Final Score: " + score.innerText;
+  buttonCont.removeChild(nextButton);
+  radiobtn1.style.display = "none";
+  radiobtn2.style.display = "none";
+  radiobtn3.style.display = "none";
+  radiobtn4.style.display = "none";
+  buttonCont.appendChild(startButton);
+  startButton.innerText = 'Start New Quiz';
+  inputName();
+  return;
+}
+function inputName() {
+  questionsCont.appendChild(inputForm);
+}
+function quiz(event) {
+  var data = new FormData(form);
+  var output = "";
+  for (const entry of data) {
+    output = entry[1];
+  };
+  if (output) {
+    if (output == material.correct[i]) {
+      score.innerText = parseInt(score.innerText) + 5;
+    }
+    else {
+      score.innerText = parseInt(score.innerText) - 2;
+      time -= 10;
+    }
+    i++;
     var quizQuestion = material.questions[i];
     var quizChoices = material.answers[i];
-    question.innerText = quizQuestion;
-    answerListItem1.innerText = quizChoices[0];
-    answerListItem2.innerText = quizAnswer[1];
-    answerListItem3.innerText = quizAnswer[2];
-    answerListItem4.innerText = quizAnswer[3];
-    i++;
-    pressed = !pressed;
+    if (i < material.questions.length) {
+      // pass question and answers into element
+      question.innerText = quizQuestion;
+      labelListItem1.innerText = quizChoices[0];
+      labelListItem2.innerText = quizChoices[1];
+      labelListItem3.innerText = quizChoices[2];
+      labelListItem4.innerText = quizChoices[3];
+    }
   }
+  event.preventDefault();
+  return;
 }
-//quiz();
-buttonCont.addEventListener('click', quiz);
+function saveScores() {
+  scoreArray.values.push(score.innerText);
+  localStorage.setItem("highScore", JSON.stringify(scoreArray));
+  return;
+}
+function retrieveScores() {
+  retrieveData = localStorage.getItem('highScore');
+  if (retrieveData == null) {
+    scoreArray.values = [];
+    scoreArray.names = [];
+  } else {
+    scoreArray = JSON.parse(retrieveData);
+  }
+  return;
+}
+function timerStart() {
+  var downloadTimer = setInterval(function () {
+    time--;
+    timeLeft.textContent = time;
+    if (time <= 0 || i >= material.questions.length) {
+      resetQuiz();
+      saveScores();
+      clearInterval(downloadTimer);
+    }
+  }, 1000);
+  return;
+}
+function addInitials(event) {
+  var initials = inputInput.value;
+  scoreArray.names.push(initials);
+  localStorage.setItem("highScore", JSON.stringify(scoreArray));
+  event.preventDefault();
+  highScoreFunction();
+}
+function highScoreFunction() {
+
+}
+startButton.addEventListener('click', setupQuiz);
+form.addEventListener('submit', quiz);
+inputButton.addEventListener('click', addInitials);
+

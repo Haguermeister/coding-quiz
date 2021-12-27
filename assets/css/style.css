@@ -8,3 +8,10 @@ body {
 .btn {
   color: rgb(152, 216, 255);
 }
+.btn-group{
+  margin: 2rem;
+}
+.countDown { 
+  list-style-type: none;
+  justify-content: center;
+}

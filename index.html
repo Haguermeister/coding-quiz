@@ -1,32 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
-    />
-    <link rel="stylesheet" href="./assets/css/style.css" />
-  </head>
-  <body>
-    <header class="header row space-between">
-      <div class="highScore"></div>
-      <div class="countDown"></div>
-    </header>
-    <section class="container d-flex flex-column align-items-center">
-      <div class="col-12 questionsCont text-center"></div>
-      <div class="col-12 answersCont text-center">
-        <ul class="answerList"></ul>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+
+<body>
+  <header class="header row mt-2">
+    <div class="highScore col-6 d-flex justify-content-center">
+      <a href=''>High Score</a>
+    </div>
+    <div class="col-6 d-flex d-flex space-between justify-content-center">
+      <p>
+        Score:
+        <br />
+        Time Left:
+      </p>
+
+      <ul class="countDown ">
+      </ul>
+    </div>
+  </header>
+  <section class="container d-flex flex-column align-items-center">
+    <div class="col-12 questionsCont text-center"></div>
+    <form class="answerCont col-12 align-items-center d-flex flex-column">
+      <div class="btn-group btn-group-toggle col-12 text-center" data-toggle="buttons">
+        <label class="btn btn-dark btn-secondary" id="btn1">
+          <input type="radio" name="options" id="option1" autocomplete="off" value="a" />
+          <span id="label1"></span>
+        </label>
+        <label class="btn btn-dark btn-secondary" id='btn2'>
+          <input type="radio" name="options" id="option2" autocomplete="off" value="b" />
+          <span id="label2"></span>
+        </label>
+        <label class="btn btn-dark btn-secondary" id='btn3'>
+          <input type="radio" name="options" id="option3" autocomplete="off" value="c" />
+          <span id="label3"></span>
+        </label>
+        <label class="btn btn-dark btn-secondary" id="btn4">
+          <input type="radio" name="options" id="option3" autocomplete="off" value="d" />
+          <span id="label4"></span>
+        </label>
       </div>
-      <div class="col-3 buttonCont"></div>
-    </section>
-    <footer class="footer row"></footer>
-    <script src="./assets/js/script.js"></script>
-  </body>
+      <div class="buttonCont col-12 d-flex justify-content-center"></div>
+
+    </form>
+  </section>
+  <footer class="footer row"> </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="./assets/js/script.js"></script>
+</body>
+
 </html>

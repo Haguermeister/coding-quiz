@@ -26,19 +26,19 @@ Coding Quiz Project Due : 26 DEC 2021
 
 #### WHEN I click the start button
 
-#### THEN a timer starts and I am presented with a question
+#### THEN a timer starts and I am presented with a question XXX
 
 #### WHEN I answer a question
 
-#### THEN I am presented with another question
+#### THEN I am presented with another question XXX
 
 #### WHEN I answer a question incorrectly
 
-#### THEN time is subtracted from the clock
+#### THEN time is subtracted from the clock XXX
 
 #### WHEN all questions are answered or the timer reaches 0
 
-#### THEN the game is over
+#### THEN the game is over  XXX
 
 #### WHEN the game is over
 
