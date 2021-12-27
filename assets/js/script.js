@@ -155,10 +155,12 @@ function quiz(event) {
   if (output) {
     if (output == material.correct[i]) {
       score.innerText = parseInt(score.innerText) + 5;
+      document.querySelector('.YesNo').innerHTML = 'Correct';
     }
     else {
       score.innerText = parseInt(score.innerText) - 2;
       time -= 10;
+      document.querySelector('.YesNo').innerHTML = 'Incorrect';
     }
     i++;
     var quizQuestion = material.questions[i];
@@ -176,6 +178,7 @@ function quiz(event) {
   return;
 }
 function resetQuiz() {
+  document.querySelector('.YesNo').innerHTML = '';
   timeLeft.textContent = 0;
   question.innerText = "Final Score: " + score.innerText;
   buttonCont.removeChild(nextButton);
