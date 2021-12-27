@@ -224,10 +224,11 @@ function highScoreFunction() {
   anchor.setAttribute('onclick', 'initialize(); return false;')
   startButton.innerText = 'Start New Quiz';
   buttonCont.appendChild(startButton);
-  question.innerHTML = 'High Score:';
   while (questionsCont.firstChild) {
     questionsCont.removeChild(questionsCont.firstChild);
   }
+  question.innerHTML = 'High Score:';
+  questionsCont.appendChild(question);
   startPrompt.style.display = 'none';
   radiobtn1.style.display = "none";
   radiobtn2.style.display = "none";

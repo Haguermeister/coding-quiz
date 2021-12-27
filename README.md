@@ -2,12 +2,12 @@
 
 Coding Quiz Project Due : 26 DEC 2021
 
-## Github Repo Link :
+## Github Repo Link : https://github.com/Haguermeister/coding-quiz
 
-## Webpage Link :
+## Webpage Link : https://haguermeister.github.io/coding-quiz/
 
 ## Screenshot Below :
-
+![alt text](./assets/images/ScreenShot.png)
 ---
 
 ## Grading Criteria :
@@ -42,4 +42,4 @@ Coding Quiz Project Due : 26 DEC 2021
 
 #### WHEN the game is over
 
-#### THEN I can save my initials and score
+#### THEN I can save my initials and score XXX
