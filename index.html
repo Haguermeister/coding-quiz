@@ -13,7 +13,8 @@
 <body>
   <header class="header row mt-2">
     <div class="highScore col-6 d-flex justify-content-center">
-      <a href=''>High Score</a>
+      <a href="#" onclick="highScoreFunction(); return false;">High Score</a>
+
     </div>
     <div class="col-6 d-flex d-flex space-between justify-content-center">
       <p>
@@ -29,6 +30,7 @@
   <section class="container d-flex flex-column align-items-center">
     <div class="col-12 questionsCont text-center"></div>
     <form class="answerCont col-12 align-items-center d-flex flex-column">
+      <ul id="myUl" class="text-center col-12"></ul>
       <div class="btn-group btn-group-toggle col-12 text-center" data-toggle="buttons">
         <label class="btn btn-dark btn-secondary" id="btn1">
           <input type="radio" name="options" id="option1" autocomplete="off" value="a" />

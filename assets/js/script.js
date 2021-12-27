@@ -33,10 +33,7 @@ material = {
 };
 var i = 0;
 var time = 60;
-var scoreArray = {
-  values: [],
-  names: []
-};
+var scoreArray = [];
 
 //---------------------------------------------------------------------------------------------
 // setup containers / elements
@@ -66,23 +63,34 @@ nextButton.setAttribute('type', 'submit');
 //----------------------------------------------------------------------------------------------
 // initialize start page
 var startPrompt = document.createElement('p');
+var anchor = document.querySelector('a');
 var startButton = document.createElement('button');
 var score = document.createElement('li');
 var timeLeft = document.createElement('li');
-question.innerText = 'Coding Quiz Challenge';
-startPrompt.innerText =
-  'Try to answer the following code-related questions within the time limit.  Keep in mind that incorrect answers will penalize your score 2 points and time by ten seconds!';
-startButton.setAttribute('type', 'button');
-startButton.setAttribute('class', 'btn btn-dark');
-startButton.innerText = 'Start Quiz';
-score.innerText = 0;
-timeLeft.innerText = 60;
-questionsCont.appendChild(question);
-buttonGroup.appendChild(startPrompt);
-buttonCont.appendChild(startButton);
-countDown.appendChild(score);
-countDown.appendChild(timeLeft);
-retrieveScores();
+var ul = document.getElementById("myUl");
+function initialize() {
+  question.innerText = 'Coding Quiz Challenge';
+  startPrompt.innerText =
+    'Try to answer the following code-related questions within the time limit.  Keep in mind that incorrect answers will penalize your score 2 points and time by ten seconds!';
+  startButton.setAttribute('type', 'button');
+  startButton.setAttribute('class', 'btn btn-dark');
+  startButton.innerText = 'Start Quiz';
+  score.innerText = 0;
+  timeLeft.innerText = 60;
+  questionsCont.appendChild(question);
+  buttonGroup.appendChild(startPrompt);
+  buttonCont.appendChild(startButton);
+  countDown.appendChild(score);
+  countDown.appendChild(timeLeft);
+  retrieveScores();
+  while (ul.firstChild) {
+    ul.removeChild(ul.firstChild);
+  }
+  startPrompt.style.display = 'inline-block';
+  anchor.innerHTML = 'High Score';
+  anchor.setAttribute('onclick', 'highScoreFunction(); return false;')
+}
+initialize();
 //-----------------------------------------------------------------------------------------------
 inputDiv = document.createElement('div');
 inputForm = document.createElement('form');
@@ -101,6 +109,8 @@ inputForm.appendChild(inputDiv);
 //-----------------------------------------------------------------------------------------------
 // setup function to clear prompt and setup questions
 function setupQuiz() {
+  anchor.style.display = 'none';
+  anchor.innerText = 'High Score'
   score.innerText = 0;
   i = 0;
   time = 60;
@@ -110,6 +120,9 @@ function setupQuiz() {
   buttonCont.removeChild(startButton);
   while (questionsCont.firstChild) {
     questionsCont.removeChild(questionsCont.firstChild);
+  }
+  while (ul.firstChild) {
+    ul.removeChild(ul.firstChild);
   }
   questionsCont.appendChild(question);
   startPrompt.style.display = 'none';
@@ -132,22 +145,6 @@ function setupQuiz() {
   labelListItem3.innerText = quizChoices[2];
   labelListItem4.innerText = quizChoices[3];
   return;
-}
-function resetQuiz() {
-  timeLeft.textContent = 0;
-  question.innerText = "Final Score: " + score.innerText;
-  buttonCont.removeChild(nextButton);
-  radiobtn1.style.display = "none";
-  radiobtn2.style.display = "none";
-  radiobtn3.style.display = "none";
-  radiobtn4.style.display = "none";
-  buttonCont.appendChild(startButton);
-  startButton.innerText = 'Start New Quiz';
-  inputName();
-  return;
-}
-function inputName() {
-  questionsCont.appendChild(inputForm);
 }
 function quiz(event) {
   var data = new FormData(form);
@@ -178,16 +175,24 @@ function quiz(event) {
   event.preventDefault();
   return;
 }
-function saveScores() {
-  scoreArray.values.push(score.innerText);
-  localStorage.setItem("highScore", JSON.stringify(scoreArray));
+function resetQuiz() {
+  timeLeft.textContent = 0;
+  question.innerText = "Final Score: " + score.innerText;
+  buttonCont.removeChild(nextButton);
+  radiobtn1.style.display = "none";
+  radiobtn2.style.display = "none";
+  radiobtn3.style.display = "none";
+  radiobtn4.style.display = "none";
+  questionsCont.appendChild(inputForm);
+  anchor.style.display = 'inline-block';
   return;
 }
+
+
 function retrieveScores() {
   retrieveData = localStorage.getItem('highScore');
   if (retrieveData == null) {
-    scoreArray.values = [];
-    scoreArray.names = [];
+    scoreArray = [];
   } else {
     scoreArray = JSON.parse(retrieveData);
   }
@@ -199,20 +204,46 @@ function timerStart() {
     timeLeft.textContent = time;
     if (time <= 0 || i >= material.questions.length) {
       resetQuiz();
-      saveScores();
       clearInterval(downloadTimer);
     }
   }, 1000);
   return;
 }
 function addInitials(event) {
-  var initials = inputInput.value;
-  scoreArray.names.push(initials);
+  var scoreObj = {}
+  scoreObj.score = score.innerText;
+  scoreObj.name = inputInput.value;
+
+  scoreArray.push(scoreObj);
   localStorage.setItem("highScore", JSON.stringify(scoreArray));
-  event.preventDefault();
   highScoreFunction();
 }
 function highScoreFunction() {
+  highScoreList = document.createElement('ul');
+  anchor.innerHTML = 'Home';
+  anchor.setAttribute('onclick', 'initialize(); return false;')
+  startButton.innerText = 'Start New Quiz';
+  buttonCont.appendChild(startButton);
+  question.innerHTML = 'High Score:';
+  while (questionsCont.firstChild) {
+    questionsCont.removeChild(questionsCont.firstChild);
+  }
+  startPrompt.style.display = 'none';
+  radiobtn1.style.display = "none";
+  radiobtn2.style.display = "none";
+  radiobtn3.style.display = "none";
+  radiobtn4.style.display = "none";
+  scoreArray.sort(function (a, b) { return a.score - b.score });
+  scoreArray = scoreArray.reverse();
+  scoreArray.forEach(function (a) {
+    var li = document.createElement("li");
+    var num = a.score.toString();
+    var name = a.name.toString();
+    text = 'Initials: ' + name + ' Score: ' + num;
+    li.innerText = text;
+    console.log(text);
+    ul.appendChild(li);
+  });
 
 }
 startButton.addEventListener('click', setupQuiz);

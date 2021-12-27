@@ -11,7 +11,7 @@ body {
 .btn-group{
   margin: 2rem;
 }
-.countDown { 
+.countDown, #myUl{ 
   list-style-type: none;
   justify-content: center;
 }
